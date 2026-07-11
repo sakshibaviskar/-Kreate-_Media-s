@@ -76,7 +76,7 @@
   }
   nav{display:flex; align-items:center; justify-content:space-between;}
   .logo{display:flex; align-items:center; gap:10px; font-family:'Clash Display',sans-serif; font-size:19px; font-weight:600; letter-spacing:0.01em;}
-  .logo-mark{width:32px;height:38px;flex-shrink:0; object-fit:cover; border-radius:8px; box-shadow:0 4px 14px -4px rgba(56,189,248,.4);}
+  .logo-mark{width:42px;height:42px; object-fit:contain; border-radius:8px; box-shadow:0 4px 14px -4px rgba(56,189,248,.4);}
   .logo-note{font-size:9px; color:var(--text-2); font-family:'Inter',sans-serif; letter-spacing:.04em; margin-left:2px; opacity:.6;}
   .nav-links{display:flex; gap:36px; font-family:'Satoshi',sans-serif; font-size:14.5px; color:var(--text-2);}
   .nav-links a{position:relative; transition:color .3s;}
@@ -141,7 +141,7 @@
   @keyframes scrollline{0%{opacity:0; transform:scaleY(0); transform-origin:top;} 40%{opacity:1; transform:scaleY(1); transform-origin:top;} 60%{opacity:1; transform:scaleY(1); transform-origin:bottom;} 100%{opacity:0; transform:scaleY(0); transform-origin:bottom;}}
 
   /* ---------- Hero visual (floating stats + phone) ---------- */
-.hero-grid{display:grid; grid-template-columns:1fr 440px; gap:50px; align-items:center; position:relative; z-index:2;}
+.hero-grid{display:grid; grid-template-columns:1fr 440px; gap:50px; align-items:center; position:relative; z-index:2; margin-top:80px;}
 @media (max-width:1000px){ .hero-grid{grid-template-columns:1fr;} }
 
 .hero-visual{position:relative; height:560px; display:flex; align-items:center; justify-content:center;}
@@ -174,7 +174,7 @@
 @keyframes cardFloat{0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);}}
 .growth-card{
     top:20px;
-    right:-40px;
+    right:-80px;
     left:auto;
 }
 .growth-card .fc-head{display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:10px;}
@@ -184,7 +184,7 @@
 .mini-bars{display:flex; align-items:flex-end; gap:5px; height:34px;}
 .mini-bars span{width:7px; border-radius:3px; background:linear-gradient(180deg,var(--blue),var(--blue-2)); display:block;}
 
-.followers-card{bottom:36px; left:-30px; animation-delay:-3s; display:flex; align-items:center; gap:12px;}
+.followers-card{bottom:36px; left:-70px; animation-delay:-3s; display:flex; align-items:center; gap:12px;}
 .followers-card .fc-avatar{width:40px;height:40px;border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--blue-2)); display:flex; align-items:center; justify-content:center; color:#04121c; flex-shrink:0;}
 .followers-card .fc-num{font-family:'Space Grotesk',sans-serif; font-size:19px; font-weight:700;}
 .followers-card .fc-label{font-size:12px; color:var(--text-2); font-family:'Satoshi',sans-serif;}
@@ -478,8 +478,9 @@
     <div class="container">
       <nav>
       <a href="#" class="logo">
-    KREATE MEDIA'S
-</a>
+          <img src="km.png" alt="KREATE MEDIA'S Logo" class="logo-mark">
+          <span>KREATE MEDIA'S</span>
+      </a>
         <ul class="nav-links">
           <li><a href="#services">Services</a></li>
           <li><a href="#portfolio">Portfolio</a></li>
