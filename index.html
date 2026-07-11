@@ -811,17 +811,17 @@ document.querySelectorAll('.reveal, .stagger').forEach(el => io.observe(el));
 
 /* ============ Portfolio data & rendering ============ */
 const categories = [
-  { key:'restaurants', name:'Restaurants', tag:'F&B', gradient:'linear-gradient(135deg,#2a1b12,#3d2417)',image:'rest.jpeg',
+  { key:'restaurants', name:'Restaurants', tag:'F&B', gradient:'linear-gradient(135deg,#2a1b12,#3d2417)',image:'images\rest.jpeg',
     challenge:"A neighbourhood restaurant with strong food but inconsistent, low-quality social content and no clear visual identity.",
     strategy:"Rebuilt the brand's visual language around warm, moody food photography and a consistent Reels format shot weekly in-house.",
     results:[["+64%","unit","Instagram reach"],["+38%","unit","Weekend covers"],["12","unit","Reels per month"]] },
 
-  { key:'salons', name:'Salons', tag:'Beauty', gradient:'linear-gradient(135deg,#241a2e,#341f42)',image:'salons.jpeg',
+  { key:'salons', name:'Salons', tag:'Beauty', gradient:'linear-gradient(135deg,#241a2e,#341f42)',image:'images\salons.jpeg',
     challenge:"A premium salon booking mostly through word-of-mouth, with no system for turning followers into appointments.",
     strategy:"Launched a before/after content pillar plus a DM-to-booking funnel, backed by targeted Meta Ads to a 5km radius.",
     results:[["+91%","unit","DM inquiries"],["+45%","unit","New client bookings"],["3.1x","unit","Ad ROAS"]] },
 
-  { key:'gyms', name:'Gyms', tag:'Fitness', gradient:'linear-gradient(135deg,#141f2c,#1a2b3d)',image:'gyms.jpeg',
+  { key:'gyms', name:'Gyms', tag:'Fitness', gradient:'linear-gradient(135deg,#141f2c,#1a2b3d)',image:'gym (1).jpeg',
     challenge:"A growing gym competing against three larger chains nearby, with a generic brand and no member-acquisition funnel.",
     strategy:"Repositioned the brand around community and transformation stories, with a lead-gen ad funnel into a free trial offer.",
     results:[["+120","unit","Trial sign-ups / mo"],["+52%","unit","Membership growth"],["2.6x","unit","Cost-per-lead improvement"]] },
@@ -831,17 +831,17 @@ const categories = [
     strategy:"Full brand refresh — editorial photography direction, a cohesive grid system, and influencer seeding strategy.",
     results:[["+210%","unit","Follower growth"],["+78%","unit","Website traffic"],["4.2x","unit","Online sales"]] },
 
-  { key:'healthcare', name:'Healthcare', tag:'Clinics', gradient:'linear-gradient(135deg,#0f1f22,#153035)',image:'healthcare.jpeg',
+  { key:'healthcare', name:'Healthcare', tag:'Clinics', gradient:'linear-gradient(135deg,#0f1f22,#153035)',image:'images\healthcare.jpeg',
     challenge:"A multi-specialty clinic needing to build trust online while staying compliant and professional in tone.",
     strategy:"Educational content series featuring the doctors, patient-journey storytelling, and a review-generation system.",
     results:[["+66%","unit","Appointment requests"],["4.9★","unit","Average review rating"],["+140%","unit","Profile visits"]] },
 
-  { key:'education', name:'Education', tag:'Institutes', gradient:'linear-gradient(135deg,#101c2c,#16283f)',image:'education.jpeg',
+  { key:'education', name:'Education', tag:'Institutes', gradient:'linear-gradient(135deg,#101c2c,#16283f)',image:'images\education.jpeg',
     challenge:"A coaching institute relying entirely on offline referrals, with almost no digital admissions pipeline.",
     strategy:"Built a results-driven content strategy around student success stories, plus a seasonal admissions ad calendar.",
     results:[["+83%","unit","Admission inquiries"],["+41%","unit","Seat fill rate"],["6x","unit","Content output"]] },
 
-  { key:'realestate', name:'Real Estate', tag:'Property', gradient:'linear-gradient(135deg,#1a1710,#2b2417)',image:'realestate.jpeg',
+  { key:'realestate', name:'Real Estate', tag:'Property', gradient:'linear-gradient(135deg,#1a1710,#2b2417)',image:'images\realestate.jpeg',
     challenge:"A boutique real-estate developer whose projects looked premium in person but forgettable online.",
     strategy:"Cinematic property walkthroughs, drone content and a lead-capture landing page for every active project.",
     results:[["+58%","unit","Site-visit bookings"],["+95%","unit","Qualified leads"],["3.4x","unit","Cost-per-lead efficiency"]] },
@@ -850,7 +850,7 @@ const categories = [
 const grid = document.getElementById('portfolioGrid');
 grid.innerHTML = categories.map(c => `
   <div class="p-card" data-key="${c.key}">
-    <div class="p-bg" style="background:${c.gradient}${c.image ? `, url('${c.image}') center/cover no-repeat` : ''}"></div>
+    <div class="p-bg" style="background:${c.image ? `url('${c.image}') center/cover no-repeat, ${c.gradient}` : c.gradient}"></div>
     <div class="p-overlay"></div>
     <div class="p-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></div>
     <div class="p-content"><span class="p-tag">${c.tag}</span><h3>${c.name}</h3></div>
