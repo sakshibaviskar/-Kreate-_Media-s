@@ -262,6 +262,87 @@
   @media (max-width:900px){ .services-grid{grid-template-columns:repeat(2,1fr);} }
   @media (max-width:560px){ .services-grid{grid-template-columns:1fr;} }
 
+  /* ---------- Clickable service cards ---------- */
+  .service-card{cursor:pointer;}
+  .service-card.active{
+    background:var(--surface-2);
+    box-shadow:0 0 0 1px var(--blue), 0 0 26px rgba(56,189,248,.5), inset 0 0 22px rgba(56,189,248,.08);
+    z-index:1;
+  }
+  .service-card.active h3{color:var(--blue);}
+  .service-card.active .service-icon{background:rgba(56,189,248,.18); border-color:var(--blue);}
+
+  /* ---------- Service Portfolio (dynamic section) ---------- */
+  #servicePortfolio{
+    display:none; opacity:0; transform:translateY(28px);
+    transition:opacity .55s var(--ease), transform .55s var(--ease);
+  }
+  #servicePortfolio.open{display:block;}
+  #servicePortfolio.open.show{opacity:1; transform:translateY(0);}
+
+  .sp-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  @media (max-width:900px){ .sp-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:640px){ .sp-grid{grid-template-columns:1fr;} }
+
+  .sp-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:16px; overflow:hidden;
+    opacity:0; transform:translateY(22px) scale(.98);
+    transition:opacity .5s var(--ease), transform .5s var(--ease), border-color .3s;
+  }
+  #servicePortfolio.show .sp-card{opacity:1; transform:translateY(0) scale(1); transition-delay:calc(var(--i, 0) * .08s);}
+  .sp-card:hover{border-color:rgba(56,189,248,.35); transform:translateY(-4px);}
+
+  .sp-thumb{position:relative; aspect-ratio:16/10; overflow:hidden; cursor:pointer; background:#000;}
+  .sp-thumb img{width:100%; height:100%; object-fit:cover; transition:transform .5s var(--ease);}
+  .sp-thumb:hover img{transform:scale(1.06);}
+  .sp-play{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;}
+  .sp-play span{
+    width:56px; height:56px; border-radius:50%;
+    background:rgba(11,15,25,.55); backdrop-filter:blur(4px);
+    border:1px solid rgba(255,255,255,.3);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .3s var(--ease), background .3s;
+  }
+  .sp-thumb:hover .sp-play span{transform:scale(1.1); background:var(--blue);}
+
+  .sp-body{padding:22px;}
+  .sp-body h4{font-family:'Satoshi',sans-serif; font-size:16.5px; font-weight:700; margin-bottom:8px;}
+  .sp-desc{font-size:13.5px; color:var(--text-2); line-height:1.55; margin-bottom:16px;}
+  .sp-tags{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;}
+  .sp-tag{font-size:11.5px; padding:4px 10px; border-radius:20px; background:rgba(56,189,248,.1); border:1px solid rgba(56,189,248,.25); color:var(--blue); font-family:'Satoshi',sans-serif;}
+  .sp-stats{display:flex; gap:14px; margin-bottom:18px; flex-wrap:wrap;}
+  .sp-stat{flex:1; min-width:88px;}
+  .sp-stat b{display:block; font-family:'Space Grotesk',sans-serif; font-size:17px; color:var(--blue);}
+  .sp-stat span{font-size:11px; color:var(--text-2);}
+  .sp-btn{
+    display:flex; align-items:center; justify-content:center; gap:6px; width:100%;
+    font-family:'Satoshi',sans-serif; font-weight:600; font-size:13.5px;
+    color:var(--blue); border:1px solid rgba(56,189,248,.3); padding:11px 16px; border-radius:8px;
+    transition:background .3s, border-color .3s, transform .3s var(--ease);
+  }
+  .sp-btn:hover{background:rgba(56,189,248,.1); border-color:var(--blue); transform:translateY(-2px);}
+
+  /* ---------- Video modal ---------- */
+  .video-modal-overlay{
+    position:fixed; inset:0; background:rgba(4,8,16,.86); backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center; z-index:999;
+    opacity:0; pointer-events:none; transition:opacity .35s var(--ease); padding:24px;
+  }
+  .video-modal-overlay.open{opacity:1; pointer-events:auto;}
+  .video-modal-box{
+    width:100%; max-width:860px; aspect-ratio:16/9; background:#000; border-radius:16px;
+    overflow:hidden; position:relative; transform:scale(.94); transition:transform .35s var(--ease);
+    border:1px solid var(--border);
+  }
+  .video-modal-overlay.open .video-modal-box{transform:scale(1);}
+  .video-modal-box video, .video-modal-box iframe{width:100%; height:100%; border:0; display:block;}
+  .video-modal-close{
+    position:absolute; top:-44px; right:0; width:36px; height:36px; border-radius:50%;
+    background:rgba(255,255,255,.08); border:1px solid var(--border); color:var(--text);
+    font-size:20px; line-height:1; display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .video-modal-close:hover{background:rgba(255,255,255,.16);}
+
   /* ---------- Portfolio ---------- */
   .portfolio-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
   @media (max-width:900px){ .portfolio-grid{grid-template-columns:repeat(2,1fr);} }
@@ -652,41 +733,61 @@ At Kreate Media, we don't just create content — we create brands that leave a 
         <p>From the first post to the full platform — strategy, design and performance under one roof.</p>
       </div>
       <div class="services-grid stagger" id="servicesGrid">
-        <div class="service-card">
+        <div class="service-card" data-service="social">
           <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 4v14"/></svg></div>
           <h3>Social Media Management</h3><p>Editorial calendars, community management and platform strategy built around your audience's behaviour.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" data-service="design">
           <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
           <h3>Graphic Design</h3><p>A distinct visual language — every asset consistent, considered and unmistakably yours.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" data-service="reels">
           <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="7" y="2" width="10" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
           <h3>Reels Creation</h3><p>Short-form content engineered for retention, built for the algorithm and the eye.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" data-service="video">
           <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="14" height="14" rx="2"/><path d="M17 10l4-3v10l-4-3"/></svg></div>
           <h3>Video Editing</h3><p>Cinematic pacing, colour grading and sound design that make footage feel premium.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" data-service="ads">
           <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l18-7-7 18-3-7-8-4z"/></svg></div>
           <h3>Meta Ads</h3><p>Full-funnel paid campaigns on Instagram &amp; Facebook, optimised for cost-per-result, not vanity metrics.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" data-service="branding">
           <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg></div>
           <h3>Branding</h3><p>Positioning, identity and voice — the foundation every asset we make is built on.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" data-service="website">
           <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v2M16 4v2"/></svg></div>
           <h3>Website Development</h3><p>Fast, conversion-focused sites — the same standard of craft as the brand behind them.</p>
         </div>
-        <div class="service-card">
+        <div class="service-card" data-service="seo">
           <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
           <h3>SEO</h3><p>Technical and content SEO that compounds — so growth doesn't stop when the ad spend does.</p>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ===== SERVICE PORTFOLIO (dynamic, injected by JS) ===== -->
+  <section id="servicePortfolio">
+    <div class="container">
+      <div class="section-head" style="opacity:1; transform:none;">
+        <span class="kicker" id="spKicker">Portfolio</span>
+        <h2 id="spTitle">Service Portfolio</h2>
+        <p id="spSubtitle">Recent projects we've completed for our clients.</p>
+      </div>
+      <div class="sp-grid" id="spGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===== VIDEO MODAL ===== -->
+  <div class="video-modal-overlay" id="videoModalOverlay">
+    <div class="video-modal-box">
+      <button class="video-modal-close" id="videoModalClose" aria-label="Close video">&times;</button>
+      <div id="videoModalContent"></div>
+    </div>
+  </div>
 
   <!-- ===== PORTFOLIO ===== -->
   <section id="portfolio">
@@ -1145,6 +1246,229 @@ function submitInquiry(){
   aiProgressBar.style.width = '100%';
   document.getElementById('aiDone').addEventListener('click', closeAI);
 }
+
+/* =========================================================
+   SERVICE PORTFOLIO — clickable service cards
+   Edit SERVICE_CONTENT below to add/change projects.
+   "video"/"thumb" fields are placeholders pointing at existing
+   image files — swap them for your real .mp4 files or YouTube
+   embed URLs when ready.
+========================================================= */
+const SERVICE_CONTENT = {
+  social: {
+    kicker: 'Social Media Management',
+    title: 'Social Media Management Portfolio',
+    subtitle: "Recent projects we've completed for our clients.",
+    type: 'video',
+    items: [
+      { thumb:'fashion/1.jpeg', video:'fashion/1.jpeg', client:'Lumière Fashion House', desc:'6-month content calendar and community management driving consistent engagement.', platform:'Instagram' },
+      { thumb:'salons/2.jpeg', video:'salons/2.jpeg', client:'Glow Studio Salon', desc:'Daily reels and story strategy that tripled profile visits in 90 days.', platform:'Instagram' },
+      { thumb:'rest_gallery/1.jpeg', video:'rest_gallery/1.jpeg', client:'Basil & Bloom Café', desc:'Full-funnel social presence across Meta platforms for a growing café chain.', platform:'Facebook' }
+    ]
+  },
+  design: {
+    kicker: 'Graphic Design',
+    title: 'Graphic Design Portfolio',
+    subtitle: "Recent projects we've completed for our clients.",
+    type: 'design',
+    items: [
+      { image:'education/2.jpeg', title:"Campus Rebrand Poster Series", category:'Print & Digital' },
+      { image:'Traders/1.jpeg', title:"Trader's Hub Ad Creatives", category:'Social Ad Design' },
+      { image:'Lifestyle/1.jpeg', title:'Lifestyle Brand Lookbook', category:'Editorial Design' }
+    ]
+  },
+  reels: {
+    kicker: 'Reels Creation',
+    title: 'Reels Creation Portfolio',
+    subtitle: "Recent projects we've completed for our clients.",
+    type: 'video',
+    items: [
+      { thumb:'fashion/2.jpeg', video:'fashion/2.jpeg', client:'Lumière Fashion House', desc:'Trend-led reels engineered for retention and reach.', platform:'Instagram' },
+      { thumb:'education/3.jpeg', video:'education/3.jpeg', client:'Bright Path Academy', desc:'Educational short-form series built around algorithm-friendly hooks.', platform:'Instagram' },
+      { thumb:'salons/3.jpeg', video:'salons/3.jpeg', client:'Glow Studio Salon', desc:'Before/after transformation reels that consistently outperform static posts.', platform:'Facebook' }
+    ]
+  },
+  video: {
+    kicker: 'Video Editing',
+    title: 'Video Editing Portfolio',
+    subtitle: "Recent projects we've completed for our clients.",
+    type: 'video',
+    items: [
+      { thumb:'rest_gallery/2.jpeg', video:'rest_gallery/2.jpeg', client:'Basil & Bloom Café', desc:'Cinematic brand film with custom colour grade and sound design.', platform:'Instagram' },
+      { thumb:'Lifestyle/2.jpeg', video:'Lifestyle/2.jpeg', client:'Lifestyle Co.', desc:'Product launch video edited for maximum retention on paid placements.', platform:'Facebook' },
+      { thumb:'education/4.jpeg', video:'education/4.jpeg', client:'Bright Path Academy', desc:'Testimonial montage edit for an enrolment campaign.', platform:'Instagram' }
+    ]
+  },
+  ads: {
+    kicker: 'Meta Ads',
+    title: 'Meta Ads Case Studies',
+    subtitle: "Recent projects we've completed for our clients.",
+    type: 'case',
+    items: [
+      { image:'salons/4.jpeg', client:'Glow Studio Salon', result:'3.2x ROAS', desc:'Full-funnel Meta Ads campaign optimised for cost-per-booking.' },
+      { image:'Traders/2.jpeg', client:"Trader's Hub", result:'2.1x ROAS', desc:'Conversion campaign across Instagram & Facebook placements.' },
+      { image:'education/5.jpeg', client:'Bright Path Academy', result:'214 leads/mo', desc:'Lead-gen campaign optimised for cost-per-result, not vanity metrics.' }
+    ]
+  },
+  branding: {
+    kicker: 'Branding',
+    title: 'Branding Portfolio',
+    subtitle: "Recent projects we've completed for our clients.",
+    type: 'design',
+    items: [
+      { image:'Traders/3.jpeg', title:"Trader's Hub Identity System", category:'Logo & Brand Guidelines' },
+      { image:'realestate.jpeg', title:'Real Estate Brand Refresh', category:'Positioning & Identity' },
+      { image:'healthcare.jpeg', title:'Healthcare Visual Identity', category:'Brand System' }
+    ]
+  },
+  website: {
+    kicker: 'Website Development',
+    title: 'Website Development Portfolio',
+    subtitle: "Recent projects we've completed for our clients.",
+    type: 'website',
+    items: [
+      { image:'images/realestate.jpeg', title:'Real Estate Listings Platform', link:'#' },
+      { image:'images/rest.jpeg', title:'Restaurant Ordering Site', link:'#' },
+      { image:'images/gym (1).jpeg', title:'Gym Membership Landing Page', link:'#' }
+    ]
+  },
+  seo: {
+    kicker: 'SEO',
+    title: 'SEO Case Studies',
+    subtitle: "Recent projects we've completed for our clients.",
+    type: 'seo',
+    items: [
+      { site:'brightpathacademy.com', traffic:'+186%', keywords:'92 keywords', duration:'6 months' },
+      { site:'basilandbloom.in', traffic:'+142%', keywords:'58 keywords', duration:'4 months' },
+      { site:'glowstudio.co.in', traffic:'+210%', keywords:'104 keywords', duration:'8 months' }
+    ]
+  }
+};
+
+function spCardHTML(type, item, i){
+  if(type === 'video'){
+    return `
+      <div class="sp-card" style="--i:${i}">
+        <div class="sp-thumb" data-video="${item.video}">
+          <img src="${item.thumb}" alt="${item.client}" loading="lazy">
+          <div class="sp-play"><span><svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="sp-body">
+          <h4>${item.client}</h4>
+          <p class="sp-desc">${item.desc}</p>
+          <div class="sp-tags"><span class="sp-tag">${item.platform}</span></div>
+          <a href="#" class="sp-btn" onclick="return false;">View Project</a>
+        </div>
+      </div>`;
+  }
+  if(type === 'design'){
+    return `
+      <div class="sp-card" style="--i:${i}">
+        <div class="sp-thumb"><img src="${item.image}" alt="${item.title}" loading="lazy"></div>
+        <div class="sp-body">
+          <h4>${item.title}</h4>
+          <div class="sp-tags"><span class="sp-tag">${item.category}</span></div>
+          <a href="#" class="sp-btn" onclick="return false;">View Design</a>
+        </div>
+      </div>`;
+  }
+  if(type === 'case'){
+    return `
+      <div class="sp-card" style="--i:${i}">
+        <div class="sp-thumb"><img src="${item.image}" alt="${item.client}" loading="lazy"></div>
+        <div class="sp-body">
+          <h4>${item.client}</h4>
+          <p class="sp-desc">${item.desc}</p>
+          <div class="sp-stats"><div class="sp-stat"><b>${item.result}</b><span>Result</span></div></div>
+          <a href="#" class="sp-btn" onclick="return false;">View Case Study</a>
+        </div>
+      </div>`;
+  }
+  if(type === 'website'){
+    return `
+      <div class="sp-card" style="--i:${i}">
+        <div class="sp-thumb"><img src="${item.image}" alt="${item.title}" loading="lazy"></div>
+        <div class="sp-body">
+          <h4>${item.title}</h4>
+          <a href="${item.link}" target="_blank" rel="noopener" class="sp-btn">Live Demo</a>
+        </div>
+      </div>`;
+  }
+  if(type === 'seo'){
+    return `
+      <div class="sp-card" style="--i:${i}">
+        <div class="sp-body" style="padding-top:26px;">
+          <h4>${item.site}</h4>
+          <div class="sp-stats">
+            <div class="sp-stat"><b>${item.traffic}</b><span>Organic Traffic</span></div>
+            <div class="sp-stat"><b>${item.keywords}</b><span>Keywords Ranked</span></div>
+            <div class="sp-stat"><b>${item.duration}</b><span>Duration</span></div>
+          </div>
+          <a href="#" class="sp-btn" onclick="return false;">View Case Study</a>
+        </div>
+      </div>`;
+  }
+  return '';
+}
+
+const spSection = document.getElementById('servicePortfolio');
+const spGrid = document.getElementById('spGrid');
+const spKicker = document.getElementById('spKicker');
+const spTitle = document.getElementById('spTitle');
+const spSubtitle = document.getElementById('spSubtitle');
+const serviceCards = document.querySelectorAll('.service-card[data-service]');
+let currentService = null;
+
+function renderServicePortfolio(key){
+  const data = SERVICE_CONTENT[key];
+  if(!data) return;
+  spKicker.textContent = data.kicker;
+  spTitle.textContent = data.title;
+  spSubtitle.textContent = data.subtitle;
+  spGrid.innerHTML = data.items.map((item,i)=>spCardHTML(data.type, item, i)).join('');
+  spGrid.querySelectorAll('.sp-thumb[data-video]').forEach(t=>{
+    t.addEventListener('click', ()=> openVideoModal(t.getAttribute('data-video')));
+  });
+}
+
+function openServicePortfolio(key){
+  if(currentService === key){ closeServicePortfolio(); return; }
+  currentService = key;
+  serviceCards.forEach(c => c.classList.toggle('active', c.getAttribute('data-service') === key));
+  renderServicePortfolio(key);
+  spSection.classList.add('open');
+  requestAnimationFrame(()=> requestAnimationFrame(()=> spSection.classList.add('show')));
+  setTimeout(()=> spSection.scrollIntoView({behavior:'smooth', block:'start'}), 80);
+}
+
+function closeServicePortfolio(){
+  spSection.classList.remove('show');
+  serviceCards.forEach(c => c.classList.remove('active'));
+  currentService = null;
+  setTimeout(()=> spSection.classList.remove('open'), 400);
+}
+
+serviceCards.forEach(card=>{
+  card.addEventListener('click', ()=> openServicePortfolio(card.getAttribute('data-service')));
+});
+
+/* ---- Video popup modal ---- */
+const videoModalOverlay = document.getElementById('videoModalOverlay');
+const videoModalContent = document.getElementById('videoModalContent');
+const videoModalClose = document.getElementById('videoModalClose');
+
+function openVideoModal(src){
+  // Swap for a real <video src="yourfile.mp4"> or a YouTube <iframe> embed
+  videoModalContent.innerHTML = `<video src="${src}" controls autoplay playsinline></video>`;
+  videoModalOverlay.classList.add('open');
+}
+function closeVideoModal(){
+  videoModalOverlay.classList.remove('open');
+  videoModalContent.innerHTML = '';
+}
+videoModalClose.addEventListener('click', closeVideoModal);
+videoModalOverlay.addEventListener('click', (e)=>{ if(e.target === videoModalOverlay) closeVideoModal(); });
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeVideoModal(); });
 </script>
 </body>
 </html>
